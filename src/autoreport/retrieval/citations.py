@@ -35,11 +35,15 @@ class Citation:
 
 
 class CitationManager:
-    """管理 检索块 -> 引用编号 的分配（同一 研报+页码 复用同一编号）。"""
+    """管理 检索块 -> 引用编号 的分配（同一 研报+页码 复用同一编号）。
 
-    def __init__(self) -> None:
+    start_from: 起始编号。多智能体场景下多个子任务各自持有 manager，
+    通过递增 start_from 保证全局引用编号不冲突（无 Key/序列化友好的简单方案）。
+    """
+
+    def __init__(self, start_from: int = 1) -> None:
         self._by_key: dict[tuple[str, int], Citation] = {}
-        self._next = 1
+        self._next = start_from
 
     def cite(self, chunk: dict) -> Citation:
         key = (chunk["report_id"], chunk["page_no"])

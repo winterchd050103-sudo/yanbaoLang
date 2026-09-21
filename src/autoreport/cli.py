@@ -156,5 +156,79 @@ def index() -> None:
     console.print("索引补建完成")
 
 
+@app.command()
+def ask(
+    question: str = typer.Argument(..., help="研报相关问题"),
+    top_k: int = typer.Option(6, "--top-k", help="检索条数"),
+    show_chunks: bool = typer.Option(False, "--show-chunks", help="附带展示命中片段"),
+) -> None:
+    """单轮研报问答（RAG，带引用溯源）。"""
+    _setup_logging()
+    from autoreport.qa import answer_question
+
+    result = answer_question(question, top_k=top_k)
+    md = f"**Q: {question}**\n\n{result['answer']}\n\n**引用来源**\n{result['citations_md']}"
+    console.print(md)
+    if show_chunks:
+        t = Table(title="命中片段")
+        t.add_column("报告", overflow="fold")
+        t.add_column("页", justify="right")
+        t.add_column("得分", justify="right")
+        t.add_column("片段", overflow="fold")
+        for c in result["chunks"]:
+            t.add_row(
+                f"{c.stock_name or c.stock_code} {c.org}",
+                str(c.page_no),
+                f"{c.score_final:.3f}",
+                c.text[:80].replace("\n", " "),
+            )
+        console.print(t)
+
+
+@app.command()
+def report(
+    question: str = typer.Argument(..., help="研报主题，如「生成 600519 的投资价值分析报告」"),
+    auto: bool = typer.Option(False, "--auto", help="跳过人工计划确认（HITL 关闭）"),
+) -> None:
+    """多智能体生成完整研报（LangGraph 工作流）。"""
+    import json
+    from datetime import datetime
+
+    _setup_logging()
+    settings = get_settings()
+    if auto:
+        settings.hitl_enabled = False  # 本进程内生效，便于脚本化调用
+
+    from autoreport.agents import build_graph, get_checkpointer
+    from autoreport.agents.state import initial_state
+
+    graph = build_graph(checkpointer=get_checkpointer())
+    thread_id = f"cli-{datetime.now():%Y%m%d-%H%M%S}"
+    config = {"configurable": {"thread_id": thread_id}}
+
+    console.print(f"[dim]thread_id={thread_id}[/dim]")
+    final_state: dict = {}
+    for update in graph.stream(initial_state(question), config, stream_mode="updates"):
+        for node, delta in update.items():
+            if node == "__interrupt__":
+                intr = delta[0]
+                payload = intr.value if hasattr(intr, "value") else intr
+                console.print("[yellow]图已在计划确认处挂起（HITL）[/yellow]")
+                console.print(json.dumps(payload, ensure_ascii=False, indent=2))
+                console.print(
+                    "[yellow]CLI 下请改用 --auto 跳过确认，"
+                    "或在 Web UI 中编辑计划后恢复[/yellow]"
+                )
+                raise typer.Exit(0)
+            console.print(f"[cyan]-> {node}[/cyan]")
+            final_state.update(delta or {})
+
+    if final_state.get("error"):
+        console.print(f"[red]失败：{final_state['error']}[/red]")
+        raise typer.Exit(1)
+    console.rule("[bold green]研报生成完成")
+    console.print(final_state.get("final_report", "(空)"))
+
+
 if __name__ == "__main__":
     app()
