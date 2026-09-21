@@ -230,5 +230,31 @@ def report(
     console.print(final_state.get("final_report", "(空)"))
 
 
+@app.command("eval")
+def eval_cmd(
+    build: bool = typer.Option(False, "--build", help="（重新）生成种子评测集"),
+    limit: int = typer.Option(0, "--limit", help="只跑前 N 条（0=全部）"),
+    top_k: int = typer.Option(5, "--top-k", help="检索命中判定的 K"),
+) -> None:
+    """评测闭环：检索命中率 / 引用正确率 / LLM-as-judge（输出 Markdown 报告）。"""
+    _setup_logging()
+    from autoreport.evaluation import build_seed_dataset, run_eval
+
+    if build:
+        r = build_seed_dataset(force=True)
+        if r["count"] >= 0:
+            console.print(f"[green]评测集已生成[/green] {r['count']} 条 -> {r['path']}")
+
+    out = run_eval(limit=limit, top_k=top_k)
+    s = out["summary"]
+    cite_s = "n/a" if s["citation_accuracy"] is None else f"{s['citation_accuracy']:.1%}"
+    console.print(
+        f"[green]评测完成[/green] 样本 {s['total']}，"
+        f"命中率@{s['top_k']} {s['retrieval_hit_rate']:.1%}，"
+        f"引用正确率 {cite_s}，平均延迟 {s['avg_latency_ms']}ms"
+    )
+    console.print(f"报告: {out['path_md']}")
+
+
 if __name__ == "__main__":
     app()

@@ -1,0 +1,186 @@
+[
+  {
+    "id": "q001",
+    "question": "工业富联（601138）的最新评级是什么？",
+    "gold_report_ids": [
+      "bb3dd1c3a03c4c00a4f06e9dc8038e04"
+    ],
+    "expected_stock_code": "601138",
+    "keywords": [
+      "工业富联",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「买入」并引用 国金证券 的研报"
+  },
+  {
+    "id": "q002",
+    "question": "哪家机构发布的工业富联研报？发布日期是？",
+    "gold_report_ids": [
+      "bb3dd1c3a03c4c00a4f06e9dc8038e04"
+    ],
+    "expected_stock_code": "601138",
+    "keywords": [
+      "工业富联",
+      "国金证券"
+    ],
+    "criteria": "回答应包含机构 国金证券 与日期 2026-08-15"
+  },
+  {
+    "id": "q003",
+    "question": "工业富联（601138）的最新评级是什么？",
+    "gold_report_ids": [
+      "975df9e95ee3490d8eb71dc924a53cb4"
+    ],
+    "expected_stock_code": "601138",
+    "keywords": [
+      "工业富联",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「增持」并引用  的研报"
+  },
+  {
+    "id": "q004",
+    "question": "工业富联（601138）的最新评级是什么？",
+    "gold_report_ids": [
+      "465d39fe72154a22afcbb0353418c376"
+    ],
+    "expected_stock_code": "601138",
+    "keywords": [
+      "工业富联",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「买入」并引用  的研报"
+  },
+  {
+    "id": "q005",
+    "question": "工业富联（601138）的最新评级是什么？",
+    "gold_report_ids": [
+      "2c6a9e62a4354102b1295e65d35031ea"
+    ],
+    "expected_stock_code": "601138",
+    "keywords": [
+      "工业富联",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「优于大市」并引用 国信证券 的研报"
+  },
+  {
+    "id": "q006",
+    "question": "哪家机构发布的工业富联研报？发布日期是？",
+    "gold_report_ids": [
+      "2c6a9e62a4354102b1295e65d35031ea"
+    ],
+    "expected_stock_code": "601138",
+    "keywords": [
+      "工业富联",
+      "国信证券"
+    ],
+    "criteria": "回答应包含机构 国信证券 与日期 2026-08-17"
+  },
+  {
+    "id": "q007",
+    "question": "工业富联（601138）的最新评级是什么？",
+    "gold_report_ids": [
+      "510b4307586a4140bfc66a4b078c36f8"
+    ],
+    "expected_stock_code": "601138",
+    "keywords": [
+      "工业富联",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「买入」并引用  的研报"
+  },
+  {
+    "id": "q008",
+    "question": "邦德股份（920271）的最新评级是什么？",
+    "gold_report_ids": [
+      "17ba8a8782584cab854d4ffbd49814a0"
+    ],
+    "expected_stock_code": "920271",
+    "keywords": [
+      "邦德股份",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「买入」并引用  的研报"
+  },
+  {
+    "id": "q009",
+    "question": "海博思创（688411）的最新评级是什么？",
+    "gold_report_ids": [
+      "029960c18d9945e181a05f0139b10351"
+    ],
+    "expected_stock_code": "688411",
+    "keywords": [
+      "海博思创",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「买入」并引用  的研报"
+  },
+  {
+    "id": "q010",
+    "question": "佳合科技（920392）的最新评级是什么？",
+    "gold_report_ids": [
+      "c827711f86114fa98686fda4e29fd435"
+    ],
+    "expected_stock_code": "920392",
+    "keywords": [
+      "佳合科技",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「增持」并引用 开源证券 的研报"
+  },
+  {
+    "id": "q011",
+    "question": "哪家机构发布的佳合科技研报？发布日期是？",
+    "gold_report_ids": [
+      "c827711f86114fa98686fda4e29fd435"
+    ],
+    "expected_stock_code": "920392",
+    "keywords": [
+      "佳合科技",
+      "开源证券"
+    ],
+    "criteria": "回答应包含机构 开源证券 与日期 2026-09-21"
+  },
+  {
+    "id": "q012",
+    "question": "戈碧迦（920438）的最新评级是什么？",
+    "gold_report_ids": [
+      "793b9e0750574e419caf9ac23e3fa2dd"
+    ],
+    "expected_stock_code": "920438",
+    "keywords": [
+      "戈碧迦",
+      "评级"
+    ],
+    "criteria": "回答应给出评级「增持」并引用 开源证券 的研报"
+  },
+  {
+    "id": "q013",
+    "question": "哪家机构发布的戈碧迦研报？发布日期是？",
+    "gold_report_ids": [
+      "793b9e0750574e419caf9ac23e3fa2dd"
+    ],
+    "expected_stock_code": "920438",
+    "keywords": [
+      "戈碧迦",
+      "开源证券"
+    ],
+    "criteria": "回答应包含机构 开源证券 与日期 2026-09-20"
+  },
+  {
+    "id": "q014",
+    "question": "对比 工业富联 和 邦德股份 研报的投资观点差异",
+    "gold_report_ids": [
+      "bb3dd1c3a03c4c00a4f06e9dc8038e04",
+      "975df9e95ee3490d8eb71dc924a53cb4"
+    ],
+    "expected_stock_code": "",
+    "keywords": [
+      "工业富联",
+      "邦德股份",
+      "对比"
+    ],
+    "criteria": "回答应分别给出两只股票的观点并做对比"
+  }
+]
