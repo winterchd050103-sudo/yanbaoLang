@@ -7,9 +7,9 @@
     plan_gate —— HITL: interrupt() 暂停，人工确认/修改计划后 Command(resume) 恢复
         |
     route <---------------+
-    /            \        |
+    /            \\        |
 researcher    tool_agent  （按 task_index 循环执行子任务）
-    \            /        |
+    \\            /        |
       route --------------+
         |
      writer（汇编引用写作） -> END
@@ -119,20 +119,17 @@ def build_graph(checkpointer=None):
     return g.compile(checkpointer=checkpointer)
 
 
-def get_checkpointer():
-    """SqliteSaver：连接常驻（check_same_thread=False 支持多线程调用）。
+def make_sqlite_saver(conn):
+    """SqliteSaver + metadata 序列化兼容层（生产与测试共用）。
 
-    兼容层说明（踩坑记录）：langgraph-checkpoint 4.x 移除了
+    踩坑记录（面试可讲）：langgraph-checkpoint 4.x 移除了
     JsonPlusSerializer.dumps/loads（只留 *_typed），而
     langgraph-checkpoint-sqlite 2.0.10 的 metadata 序列化仍调用旧 API。
     这里替换 metadata 序列化器为基于 ormsgpack 的兼容实现
     （metadata 均为简单 dict，够用；channel 数据走的是新 *_typed API 不受影响）。
     """
-    from langgraph.checkpoint.sqlite import SqliteSaver
 
-    path = get_settings().abs_path(get_settings().checkpoint_path)
-    conn = sqlite3.connect(str(path), check_same_thread=False)
-    saver = SqliteSaver(conn)
+    from langgraph.checkpoint.sqlite import SqliteSaver
 
     class _MetaSerdeCompat:
         """metadata 序列化兼容层（仅基础类型 dict）。"""
@@ -147,5 +144,13 @@ def get_checkpointer():
 
             return ormsgpack.unpackb(data, option=ormsgpack.OPT_NON_STR_KEYS)
 
+    saver = SqliteSaver(conn)
     saver.jsonplus_serde = _MetaSerdeCompat()
     return saver
+
+
+def get_checkpointer():
+    """SqliteSaver：连接常驻（check_same_thread=False 支持多线程调用）。"""
+    path = get_settings().abs_path(get_settings().checkpoint_path)
+    conn = sqlite3.connect(str(path), check_same_thread=False)
+    return make_sqlite_saver(conn)
