@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import logging
 
+from functools import lru_cache
+
 from autoreport.config import Settings, get_settings
 
 logger = logging.getLogger(__name__)
@@ -44,6 +46,35 @@ def get_chat_model(role: str = "main", settings: Settings | None = None):
     )
 
 
+def structured_invoke(llm, schema_cls, messages):
+    """DeepSeek 兼容的结构化输出（面试可讲的真实踩坑）。
+
+    背景：with_structured_output 默认走 json_schema response_format，
+    DeepSeek 仅支持 json_object（会报 "This response_format type is
+    unavailable now"）。这里统一改为 json_mode + 在 prompt 显式注入
+    schema + Pydantic 校验 —— Qwen/DeepSeek 通吃，且可自动剥离代码围栏。
+    """
+    import json as _json
+    import re as _re
+
+    schema_str = _json.dumps(schema_cls.model_json_schema(), ensure_ascii=False)
+    instruction = (
+        "输出要求：只输出一个 JSON 对象，禁止 markdown 代码块与任何额外文字。\n"
+        f"JSON 必须符合以下 schema：\n{schema_str}"
+    )
+    msgs = list(messages) if isinstance(messages, (list, tuple)) else [("user", str(messages))]
+    if msgs and msgs[0][0] == "system":
+        msgs[0] = ("system", f"{msgs[0][1]}\n\n{instruction}")
+    else:
+        msgs.insert(0, ("system", instruction))
+
+    out = llm.bind(response_format={"type": "json_object"}).invoke(msgs)
+    text = out.content if isinstance(out.content, str) else str(out.content)
+    text = _re.sub(r"^```(?:json)?\s*|\s*```$", "", text.strip())  # 剥代码围栏
+    return schema_cls.model_validate_json(text)
+
+
+@lru_cache
 def get_embeddings(settings: Settings | None = None):
     """创建 Embedding 模型。
 
@@ -81,6 +112,7 @@ def get_embeddings(settings: Settings | None = None):
         import os
 
         os.environ.setdefault("HF_ENDPOINT", s.hf_endpoint)
+        os.environ.setdefault("HF_HOME", str(s.hf_cache_dir))  # 缓存放项目 data/（D 盘）
         logger.info("使用本地嵌入模型 BAAI/bge-small-zh-v1.5（HF_ENDPOINT=%s）", s.hf_endpoint)
         return HuggingFaceEmbeddings(model_name="BAAI/bge-small-zh-v1.5")
 

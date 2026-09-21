@@ -211,7 +211,7 @@ def refine_meta_with_llm(meta: ReportMeta, first_page_text: str) -> ReportMeta:
     try:
         from pydantic import BaseModel, Field
 
-        from autoreport.llm import get_chat_model
+        from autoreport.llm import get_chat_model, structured_invoke
 
         class MetaOut(BaseModel):
             title: str = Field("", description="研报标题")
@@ -229,7 +229,7 @@ def refine_meta_with_llm(meta: ReportMeta, first_page_text: str) -> ReportMeta:
             f"弱字段：{sorted(meta.weak_fields)}\n"
             f"--- 研报首页文本 ---\n{first_page_text[:3000]}"
         )
-        out = llm.with_structured_output(MetaOut).invoke(prompt)
+        out = structured_invoke(llm, MetaOut, prompt)
         # LLM 结果只覆盖弱字段（强字段以规则结果为准，避免规则被模型覆盖）
         updates = out.model_dump()
         for key in list(meta.weak_fields):

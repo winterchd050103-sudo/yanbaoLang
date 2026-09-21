@@ -144,6 +144,13 @@ class Settings(BaseSettings):
         return p
 
     @property
+    def hf_cache_dir(self) -> Path:
+        """HuggingFace 模型缓存目录（项目 data 下，避免占 C 盘）。"""
+        p = PROJECT_ROOT / "data" / "hf_cache"
+        p.mkdir(parents=True, exist_ok=True)
+        return p
+
+    @property
     def inbox_dir(self) -> Path:
         p = PROJECT_ROOT / "data" / "inbox"
         p.mkdir(parents=True, exist_ok=True)

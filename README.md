@@ -119,13 +119,18 @@ flowchart TD
 
 ## 评测结果（简历数字来源）
 
-`uv run autoreport eval --build` 输出 `data/eval_output/report_*.md`：
+`uv run autoreport eval --build` 输出 `data/eval_output/report_*.md`（14 条实测，DeepSeek + bge-small-zh）：
 
-- 检索命中率@5 / 引用正确率 / LLM-as-judge 平均分 / 平均延迟
-- 逐条明细 JSONL 支持优化前后对比（回归测试）
+| 指标 | 纯关键词基线 | 启用向量通道后 |
+|---|---|---|
+| 检索命中率@5 | 78.6% | **92.9%**（目标 ≥ 85%） |
+| 引用正确率 | — | **100%** |
+| judge 平均分 / 合格率 | — | 3.0 / 71.4% |
+| 平均延迟 | 2.1 s/条 | 3.2 s/条 |
+
+- 失败案例清单自动定位优化方向（基线期 3 条实体精确匹配失败均因向量通道缺失）
+- 逐条明细 JSONL 支持优化前后回归对比
 - LangSmith 配置后评测集自动上传，trace 可视化
-
-> 示例写法：「自建 N 条研报问答评测集，通过评测闭环将检索命中率从 X% 优化到 Y%。」
 
 ## 设计决策（为何这样做）
 

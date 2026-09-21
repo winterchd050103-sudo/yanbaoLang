@@ -35,6 +35,7 @@ dependencies = [
 # 本地嵌入模型兜底（不需要 API Key，但体积较大）
 local-embedding = [
     "sentence-transformers>=3.0",
+    "langchain-huggingface>=0.1",
 ]
 
 [dependency-groups]

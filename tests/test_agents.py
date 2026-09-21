@@ -119,7 +119,18 @@ def no_hitl(monkeypatch):
     get_settings().hitl_enabled = True
 
 
-def test_graph_without_llm_reaches_clean_error(graph, no_hitl):
+@pytest.fixture()
+def no_llm(monkeypatch):
+    """显式模拟「无 LLM Key」环境（.env 配了真实 Key 时，降级路径测试仍需成立）。"""
+    monkeypatch.setattr(
+        "autoreport.config.Settings.llm_available",
+        property(lambda self: False),
+        raising=False,
+    )
+    yield
+
+
+def test_graph_without_llm_reaches_clean_error(graph, no_llm, no_hitl):
     """无 Key：默认计划 -> 研究员报清晰错误 -> 图正常终止（不炸）。"""
     from autoreport.agents.state import initial_state
 
@@ -147,7 +158,7 @@ def test_graph_hitl_cancel(graph):
     assert "取消" in final["error"]
 
 
-def test_graph_hitl_edit_plan(graph):
+def test_graph_hitl_edit_plan(graph, no_llm):
     """HITL：人工改写计划后 resume -> 按新计划执行（无 LLM 时走 error 路径）。"""
     from langgraph.types import Command
 

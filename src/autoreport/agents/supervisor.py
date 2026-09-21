@@ -57,19 +57,20 @@ def default_plan(question: str) -> list[SubTask]:
 
 def plan_question(question: str) -> tuple[list[SubTask], str]:
     """拆解问题。返回 (子任务列表, 备注)。"""
-    from autoreport.llm import get_chat_model
+    from autoreport.llm import get_chat_model, structured_invoke
 
     llm = get_chat_model("main")
-    planner = llm.with_structured_output(PlanModel)
     plan: list[SubTask] | None = None
     note = ""
     for attempt, prompt in enumerate((question, RETRY_PROMPT), 1):
         try:
-            out = planner.invoke(
+            out = structured_invoke(
+                llm,
+                PlanModel,
                 [
                     ("system", SYSTEM_PROMPT),
                     ("user", f"用户问题：{prompt if attempt > 1 else question}"),
-                ]
+                ],
             )
         except Exception as e:  # noqa: BLE001
             logger.warning("计划拆解第 %d 次失败: %s", attempt, e)

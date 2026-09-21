@@ -244,6 +244,7 @@ dependencies = [
 
 [package.optional-dependencies]
 local-embedding = [
+    { name = "langchain-huggingface" },
     { name = "sentence-transformers" },
 ]
 
@@ -258,6 +259,7 @@ requires-dist = [
     { name = "chromadb", specifier = ">=1.0" },
     { name = "jieba", specifier = ">=0.42" },
     { name = "langchain", specifier = ">=1.0,<2.0" },
+    { name = "langchain-huggingface", marker = "extra == 'local-embedding'", specifier = ">=0.1" },
     { name = "langchain-openai", specifier = ">=1.0,<2.0" },
     { name = "langgraph", specifier = ">=1.0,<2.0" },
     { name = "langgraph-checkpoint-sqlite", specifier = ">=2.0,<3.0" },
@@ -1514,6 +1516,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/06/d7/1482670ccebc863166852516a08a1956fc50da40fbe2fe7dd218abfef4a1/langchain_core-1.6.3.tar.gz", hash = "sha256:88b430944fbd4d40fa98135d6c873581d497b6f33515d01962337548e918df2f", size = 1006228, upload-time = "2026-09-11T17:37:45.614Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e6/18/cf18cfec118b02e003f35300b54d6a1173dc6e4905cffdf5ea49e390a7f9/langchain_core-1.6.3-py3-none-any.whl", hash = "sha256:114fe1868c9ed60606662b9dd0074bf3152cc6b0b1522ba37cbd6b04f55ca77d", size = 571753, upload-time = "2026-09-11T17:37:43.875Z" },
+]
+
+[[package]]
+name = "langchain-huggingface"
+version = "1.2.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "huggingface-hub" },
+    { name = "langchain-core" },
+    { name = "tokenizers" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2c/e8/4068ad02179253f55958e59e442e5b6e8cb95ffc5e805cc4db0b1ef61d4e/langchain_huggingface-1.2.2.tar.gz", hash = "sha256:1dd91ec415190d2704e93ec149618e3145075863ba37e74afc9080d685dc2743", size = 255513, upload-time = "2026-04-16T19:57:41.046Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0a/ed/648b87f9b67153ade616f360bf4145b76ed428b4adb89525938f611e9828/langchain_huggingface-1.2.2-py3-none-any.whl", hash = "sha256:f94944b0c0d5afc687568d426c87ed5236907464c41e72108ed76eee1a690f6d", size = 31926, upload-time = "2026-04-16T19:57:40.079Z" },
 ]
 
 [[package]]

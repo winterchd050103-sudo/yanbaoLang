@@ -24,7 +24,7 @@ RESEARCHER_PROMPT = """你是资深证券研究员助理，负责在本地研报
 3. 检索不到的内容如实说明，禁止编造
 4. 最后输出一段结构化中文总结：要点分条，每条带引用编号"""
 
-MAX_STEPS = 6  # 防止 ReAct 循环失控（成本兜底）
+MAX_STEPS = 24  # recursion_limit 按节点步计（agent+tool 交替各占 1 步），约支持 10 次工具调用
 
 
 def researcher_node(state: AgentState) -> dict:

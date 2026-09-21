@@ -17,6 +17,7 @@ data/announcements/
 data/inbox/*.pdf
 data/inbox/processed/
 data/eval_output/
+data/hf_cache/
 logs/
 
 # 样例研报 PDF 不入库（版权原因）

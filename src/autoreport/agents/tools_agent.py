@@ -21,7 +21,7 @@ TOOL_PROMPT = """你是数据分析助理，只负责执行给定的一项工具
 2. 结论必须来自工具返回值；工具失败或证据不足时如实说明
 3. 输出简洁的中文结论，涉及数字时保留工具给出的精确值"""
 
-MAX_STEPS = 8
+MAX_STEPS = 24  # recursion_limit 按节点步计（agent+tool 交替各占 1 步）
 
 _TOOL_HINTS = {
     "calc": "使用 safe_calc 工具完成下面的计算任务，表达式要自己从描述中构造：",

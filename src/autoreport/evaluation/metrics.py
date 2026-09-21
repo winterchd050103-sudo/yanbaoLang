@@ -77,11 +77,11 @@ def llm_judge(question: str, answer: str, criteria: str) -> dict | None:
     if not criteria.strip():
         return None
     try:
-        from autoreport.llm import get_chat_model
+        from autoreport.llm import get_chat_model, structured_invoke
 
-        judge = get_chat_model("small").with_structured_output(JudgeVerdict)
-        out = judge.invoke(
-            _JUDGE_PROMPT.format(question=question, criteria=criteria, answer=answer)
+        out = structured_invoke(
+            get_chat_model("small"), JudgeVerdict,
+            _JUDGE_PROMPT.format(question=question, criteria=criteria, answer=answer),
         )
         return {"score": out.score, "reason": out.reason}
     except Exception as e:  # noqa: BLE001
