@@ -1,0 +1,10 @@
+services:
+  autoreport:
+    build: .
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env          # 密钥只放 .env（参考 .env.example），不进镜像
+    volumes:
+      - ./data:/app/data   # 研报库/向量库/检查点持久化到宿主机
+    restart: unless-stopped

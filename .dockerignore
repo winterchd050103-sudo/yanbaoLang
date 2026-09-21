@@ -1,0 +1,13 @@
+.venv/
+.git/
+.gitignore
+.env
+.env.local
+data/
+docs/*.pdf
+**/__pycache__/
+*.egg-info/
+.idea/
+.vscode/
+data/eval_output/
+logs/
