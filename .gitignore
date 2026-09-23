@@ -28,6 +28,9 @@ docs/*.pdf
 .idea/
 .vscode/
 
+# 本地备份目录
+OLD_CODE/
+
 # 系统
 .DS_Store
 Thumbs.db

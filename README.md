@@ -117,7 +117,7 @@ flowchart TD
     W --> E[END]
 ```
 
-## 评测结果（简历数字来源）
+## 评测结果（能力验证数字）
 
 `uv run autoreport eval --build` 输出 `data/eval_output/report_*.md`（14 条实测，DeepSeek + bge-small-zh）：
 
