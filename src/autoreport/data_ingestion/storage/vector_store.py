@@ -1,6 +1,6 @@
 """向量库封装（Chroma 本地持久化）。
 
-设计要点（面试可讲）：
+设计要点：
 - 直接用 chromadb PersistentClient + langchain Embeddings 计算向量，
   少一层包装依赖，接口清晰
 - metadata 冗余存储 stock_code / org / title / publish_date，

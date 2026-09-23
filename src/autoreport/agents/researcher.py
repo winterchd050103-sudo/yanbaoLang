@@ -1,6 +1,6 @@
 """研究员节点：带检索工具的 Agent（langchain create_agent）。
 
-为什么用 create_agent 而不是手写 while 循环（面试可讲）：
+为什么用 create_agent 而不是手写 while 循环：
 - 检索质量差时模型需要「换关键词重试」「先查 A 再查 B」的自主性，
   这正是 ReAct 循环的价值；LangGraph 里一个节点封装整个循环，
   对外仍是一个 state->state 的普通节点，图结构保持简单

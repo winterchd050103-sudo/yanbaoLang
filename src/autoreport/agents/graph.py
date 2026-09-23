@@ -1,6 +1,6 @@
 """LangGraph 组装：主管 -> 计划确认(HITL) -> 循环调度 -> 写作。
 
-图结构（面试可讲，建议对着代码画一遍）：
+图结构（建议对着代码画一遍）：
 
     supervisor(拆解计划)
         |
@@ -122,7 +122,7 @@ def build_graph(checkpointer=None):
 def make_sqlite_saver(conn):
     """SqliteSaver + metadata 序列化兼容层（生产与测试共用）。
 
-    踩坑记录（面试可讲）：langgraph-checkpoint 4.x 移除了
+    踩坑记录：langgraph-checkpoint 4.x 移除了
     JsonPlusSerializer.dumps/loads（只留 *_typed），而
     langgraph-checkpoint-sqlite 2.0.10 的 metadata 序列化仍调用旧 API。
     这里替换 metadata 序列化器为基于 ormsgpack 的兼容实现

@@ -1,6 +1,6 @@
 """LLM 工厂：统一创建 Chat 模型与 Embedding，屏蔽底层提供商差异。
 
-设计要点（面试可讲）：
+设计要点：
 - Qwen / DeepSeek 都提供 OpenAI 兼容接口，因此统一用 ChatOpenAI + base_url 接入，
   切换提供商只改 .env 的 LLM_PROVIDER，业务代码零改动
 - 模型分级控制成本：main（规划/写作）与 small（抽取/改写/judge）两档
@@ -47,7 +47,7 @@ def get_chat_model(role: str = "main", settings: Settings | None = None):
 
 
 def structured_invoke(llm, schema_cls, messages):
-    """DeepSeek 兼容的结构化输出（面试可讲的真实踩坑）。
+    """DeepSeek 兼容的结构化输出。
 
     背景：with_structured_output 默认走 json_schema response_format，
     DeepSeek 仅支持 json_object（会报 "This response_format type is

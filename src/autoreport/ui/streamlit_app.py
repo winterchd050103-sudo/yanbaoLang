@@ -2,7 +2,7 @@
 
 启动：uv run streamlit run src/autoreport/ui/streamlit_app.py
 
-两个页面（面试演示动线）：
+两个页面：
 1. 研报问答 —— RAG 轻链路：混合检索 + 带引用作答，可展开查看引用与命中片段
 2. 研报生成 —— 多智能体重链路：LangGraph 节点进度实时展示；
    计划确认 interrupt 挂起后，可编辑子任务再 Command(resume) 恢复（HITL 核心卖点）

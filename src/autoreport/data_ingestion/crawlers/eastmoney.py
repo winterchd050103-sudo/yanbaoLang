@@ -1,6 +1,6 @@
 """东方财富研报中心采集器（直链模式，方案 3.1/5.2 推荐首选落地源）。
 
-原理（面试可讲）：
+原理：
 - 列表接口 reportapi.eastmoney.com/report/list 返回 JSON，其中 infoCode 是关键
 - PDF 直链格式稳定：https://pdf.dfcfw.com/pdf/H3_{infoCode}_1.pdf
   —— 用户 docs/ 目录的 5 份文件正是该格式（H3_AP{日期}{序列}_1.pdf）

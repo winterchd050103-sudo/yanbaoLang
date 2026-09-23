@@ -1,6 +1,6 @@
 """结构化存储层：SQLite（SQLAlchemy）+ FTS5 关键词索引。
 
-表设计（面试可讲）：
+表设计：
 - reports        研报元数据（pdf_hash 去重是幂等采集的关键）
 - chunks         文本分块（保留 report_id + page_no，页码是引用溯源的关键）
 - chunk_fts      FTS5 全文索引（jieba 分词，解决中文分词问题）

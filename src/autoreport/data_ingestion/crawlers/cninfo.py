@@ -1,6 +1,6 @@
 """巨潮资讯公告采集器（官方公开接口，校验源）。
 
-用途（面试可讲）：
+用途：
 - 下载年报/半年报等官方公告，为「研报预测 vs 年报实际」偏差校验提供权威数据
 - cninfo 接口流程：topSearch 拿 orgId -> hisAnnouncement/query 拿公告列表
   -> static.cninfo.com.cn/{adjunctUrl} 下载 PDF
