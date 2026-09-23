@@ -28,6 +28,9 @@ docs/*.pdf
 .idea/
 .vscode/
 
+# 本地开发方案文档
+AutoReport-自动研报系统开发方案.md
+
 # 本地备份目录
 OLD_CODE/
 
